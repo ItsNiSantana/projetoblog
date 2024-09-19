@@ -1,5 +1,5 @@
 <?php
-    function insert(tring $entidade, array $dados) : string
+    function insert(string $entidade, array $dados) : string
     {
         $instrucao = "INSERT INTO {$entidade}";
 
@@ -19,13 +19,13 @@
             $set[] = "{$campo} = {$dado}";
         }
 
-        $instrucao .= ' SET ' . IMPLODE(',', $set);
+        $instrucao .= ' SET ' . implode(',', $set);
 
         if(!empty($criterio)){
             $instrucao .= ' WHERE ';
 
             foreach($criterio as $expressao){
-                4instrucao .= ' ' . implode(' ', $expressao);
+                $instrucao .= ' ' . implode(' ', $expressao);
             }
         }
 
@@ -55,8 +55,8 @@
         if(!empty($criterio)){
             $instrucao .= ' WHERE ';
 
-            foreach($instrucao as $expressao){
-                $instrucao .= ' ' . implode(' ', $expressao)
+            foreach($criterio as $expressao){
+                $instrucao .= ' ' . implode(' ', $expressao);
             }
         }
 
