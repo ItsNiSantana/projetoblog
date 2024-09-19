@@ -1,15 +1,22 @@
 <?php
-    $hostname = 'localhost';
-    $username = 'root';
-    $password = '';
-    $database = 'blog';
+function conecta() : mysqli
+{
+    $servidor = 'localhost';
+    $banco = 'blog';
     $port     = 3306;
+    $usuario = 'root';
+    $senha = '';
+    $conexao = mysqli_connect($servidor, $usuario, $senha, $ banco, $port);
 
-    $con = mysqli_connect($hostname, $username,
-                $password, $database, $port);
-    if(mysqli_connect_errno()){
-        printf("Erro conexão: %s", 
-                mysqli_connect_error());
-        exit();
+    if(!$conexao){
+        echo 'Erro: Não foi possível conectar ao MySql.' . PHP_EOL;
+        echo 'Debugging errno: ' . mysqli_connect_errno(). PHP_EOL;
+        echo 'Debugging error: ' . mysqli_connect_error() . PHP_EOL;
     }
+    return $conexao;
+}
+function desconecta($conexao)
+{
+    mysqli_close($conexao);
+}
 ?>

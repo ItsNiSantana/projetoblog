@@ -1,4 +1,5 @@
 <?php
+    //insere
     function  insere(string $entidade, array $dados) : bool
     {
         $retorno = false;
@@ -29,21 +30,22 @@
 
         return $retorno;
     }
+    //atualiza
     function atualiza (string $entidade, array $dados, array $criterio []): bool
     {
         $retorno false;
 
-        foreach ($dados as $campo -> $dado) {
+        foreach ($dados as $campo => $dado) {
             $coringa_dados [$campo] = '?';
             $tipo[] = gettype ($dado) [0]; 
-            $$campo $dado;
+            $$campo = $dado;
         }
 
         foreach ($criterio as $expressao){
 
             $dado = $expressao [count ($expressao) -1];
 
-            $tipo[] = gettype ($dado)[0];
+            $tipo[] = gettype($dado)[0];
             $expressao [count ($expressao) - 1] = '?';
             $coringa_criterio[] = $expressao;
 
@@ -56,155 +58,140 @@
         
         $campos_criterio[] = $nome_campo;
         $$nome_campo = $dado;
+        }
+
+        $instrucao = update($entidade, $coringa_dados, $coringa_criterio);
+
+        $conexao = conecta();
+
+        $stmt = mysqli_prepare($conexao, $instrucao);
+
+        if(isset($tipo)){
+            $comando = 'mysqli_stmt_bind_param($stmt, ';
+            $comando .= "'" . implode('', $tipo). "'";
+            $comando .=  ', $' . implode(', $', array_keys ($dados)); 
+            $comando .= ', $' . implode(', $', $campos_criterio);
+            $comando .= ');';
+
+            eval($comando);
+        }
+
+        mysqli_stmt_execute($stmt);
+
+        $retorno = (boolean) mysqli_stmt_affected_rows($stmt);
+
+        $_SESSION['errors'] =  mysqli_stmt_error_list($stmt);
+
+        mysqli_stmt_close($stmt);
+
+        desconecta ($conexao):
+
+        return $retorno;
     }
 
-    $instrucao = update ($entidade, $coringa_dados, $coringa_criterio);
-
-    $conexao = conecta();
-
-    $stmt = mysqli_prepare($conexao, $instrucao);
-
-    if(isset($tipo)){
-        $comando = 'mysqli_stmt_bind_param($stmt, ';
-        $comando .= "'" . implode('', $tipo). "'";
-        $comando .=  ', $' . implode(', $', array_keys ($dados)); 
-        $comando .= ', $' . implode(', $', $campos_criterio);
-        $comando .= ');';
-
-        eval($comando);
-    }
-
-    mysqli_stmt_execute($stmt);
-
-    $retorno = (boolean) mysqli_stmt_affected_rows($stmt);
-
-    $_SESSION['errors'] =  mysqli_stmt_error_list($stmt);
-
-    mysqli_stmt_close ($stmt);
-
-    desconecta ($conexao):
-
-    return $retorno;
-    }
-
+    //deleta
     function deleta (string $entidade, array $criterio = []) : bool
+    {
+        $retorno = false;
+        $coringa_criterio = [];
 
-    $retorno = false:
-    $coringa_criterio = [];
+        foreach ($criterio as $expressao){
+            $dado = $expressao[count($expressao)-1];
 
-    foreach ($criterio as $expressao){
+            $tipo[] = gettype($dado) [0];
+            $expressao[count ($expressao) -1] = '?';
+            $coringa_criterio[] = $expressao;
         
+            $nome_campo = (count($expressao) < 4) ? $expressao[0] : $expressao[1];
+
+            $campos_criterio[] = $nome_campo;
+
+            $$nome_campo = $dado;
+        }
+
+        $instrucao = delete($entidade, $coringa_criterio);
+
+        $conexao = conecta ();
+
+        $stmt mysqli_prepare($conexao, $instrucao);
+
+        if(isset($tipo)){
+            $comando = 'mysqli_stmt_bind_param($stmt, ';
+            $comando .= "'" . implode('', $tipo). "'";
+            $comando .= ', $' . implode(', $', $campos_criterio);
+            $comando .= ');';
+
+            eval($comando);
+        }
+
+        mysqli_stmt_execute ($stmt);
+
+        $retorno = (boolean) mysqli_stmt_affected_rows($stmt);
+        
+        $_SESSION['errors'] = mysqli_stmt_error_list($stmt);
+        
+        mysqli_stmt_close($stmt);
+        
+        desconecta ($conexao);
+        
+        return $retorno;
     }
 
-09
+    //buscar
+    function buscar(string $entidade, array $campos = ['*'], array $criterio = [], string $ordem = null) :  array 
+    {
+        $retorno = false;
+        $coringa_criterio = [];
 
-100
+        foreach($criterio as $expressao) {
+            $dado = $expressao[count($expressao) -1];
 
-102
+            $tipo[] = gettype($dado)[0];
+            $expressao[count($expressao) - 1] = '?';
+            $coringa_criterio[] = $expressao;
 
-Stipo] gettype (Sdado) [0]
+            $nome_campo = (count($expressao) < 4) ? $expressao[0] : $expressao[1];
 
-107
+            if(isset($$nome_campo)) {
+                $nome_campo = $nome_campo . '_' . rand();
+            }
 
-303
+            $campos_criterio[] = $nome_campo;
+            
+            $$nome_campo = $dado;
+        }
 
-Sdado Sexpressao [count (Sexprensao)-111
+        $instrucao = select($entidade, $campos, $coringa_criterio, $ordem);
 
-Sexpressao [count (Sexpressao) 11-77
+        $conexao = conecta();
 
-Scoringa criterio Sexprensaor
+        $stmt = mysqli_prepare($conexao, $instrucao);
 
-194
+        if(isset($tipo)) {
+            $comando = 'mysqli_stmt_bind_param(stmt, ';
+            $comando .= "'" . implode('', $tipo). "'";
+            $comando .= ', $' . implode(', $', $campos_criterio);
+            $comando .= ');';
 
-105
+            eval($comando);
+        }
 
-Snome campо (count($xpressao) < 41 Sexpressao): Sexpressao[1];
+        mysqli_stmt_execute($stmt);
 
-100
+        if($result = mysqli_stmt_get_result($stmt)) {
+            $retorno = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-10%
+            mysqli_free_result($result);
+        }
 
-Scampos criterio nome campo:
+        $_SESSION['errors'] = mysqli_stmt_error_list($stmt);
 
-100
+        mysqli_stmt_close($stmt);
 
-200
+        desconecta($conexao);
 
-Sdadoz
+        $retorno = $retorno;
 
-130
-
-311
-
-112
-
-@instrucao delete (Suntidade, Scoringa_criteriol r
-
-313
-
-114
-
-Sconexao conecta (12
-
-115
-
-116
-
-Satmt mysqli prepare (Sconexao, Sinstrucao):
-
-117
-
-210
-
-if(isset(Stipo))( Scomando myngii atat bind paran (Sant,
-
-119
-
-120
-
-Sccomando implode, Stipoj
-
-131
-
-Scomando implode (1 Seampon criterio);
-
-122
-
-Scomanda
-
-324
-
-eval (Scomando):
-
-120
-
-126
-
-127
-
-mysqli stmt execute (Outmt);
-
-128
-
-129
-
-Sretorno (boolean) mysqli_stmt_affected rows(Satant)
-
-130
-
-131
-
-BERSION" mysqli_stmt_error_list(stmt);
-
-mysqli stat close(Satmt):
-
-134
-
-desconecta (Sconexao);
-
-136
-
-137
-
-return Sretorno,
+        return $retorno;
+    }
 ?>
