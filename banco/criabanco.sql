@@ -7,12 +7,12 @@ USE blog;
 CREATE TABLE usuario
 (
     id      INT NOT NULL AUTO_INCREMENT,
-    nome    VARCHAR(50) NOT NULL,
-    email       VARCHAR(255) NOT NULL,
-    senha       VARCHAR(50) NOT NULL,
+    nome    varchar(50) NOT NULL,
+    email       varchar(255) NOT NULL,
+    senha       varchar(50) NOT NULL,
     dt_criacao datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     ativo       tinyint NOT NULL DEFAULT '0',
-    adm tinyint NOT NULL DEFAULT '0';
+    adm tinyint NOT NULL DEFAULT '0',
     PRIMARY KEY(id)
 );
 
@@ -20,7 +20,7 @@ CREATE TABLE usuario
 CREATE TABLE POST
 (
     id          INT NOT NULL AUTO_INCREMENT,
-    titulo      VARCHAR(255) NOT NULL,
+    titulo      varchar(255) NOT NULL,
     texto       text NOT NULL,
     usuario_id  int NOT NULL,
     dt_criacao  INT NOT NULL DEFAULT CURRENT_TIMESTAMP,

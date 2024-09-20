@@ -4,7 +4,7 @@
     {
         $retorno = false;
 
-        foreach($dados as $campo => $ dado){
+        foreach($dados as $campo => $dado){
             $coringa[$campo] = '?';
             $tipo[] = gettype($dado)[0];
             $$campo = $dado;
@@ -31,9 +31,9 @@
         return $retorno;
     }
     //atualiza
-    function atualiza (string $entidade, array $dados, array $criterio []): bool
+    function atualiza (string $entidade, array $dados, array $criterio = []): bool
     {
-        $retorno false;
+        $retorno = false;
 
         foreach ($dados as $campo => $dado) {
             $coringa_dados [$campo] = '?';
@@ -84,7 +84,7 @@
 
         mysqli_stmt_close($stmt);
 
-        desconecta ($conexao):
+        desconecta ($conexao);
 
         return $retorno;
     }
@@ -113,7 +113,7 @@
 
         $conexao = conecta ();
 
-        $stmt mysqli_prepare($conexao, $instrucao);
+        $stmt = mysqli_prepare($conexao, $instrucao);
 
         if(isset($tipo)){
             $comando = 'mysqli_stmt_bind_param($stmt, ';

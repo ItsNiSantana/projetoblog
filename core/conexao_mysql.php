@@ -6,7 +6,7 @@ function conecta() : mysqli
     $port     = 3306;
     $usuario = 'root';
     $senha = '';
-    $conexao = mysqli_connect($servidor, $usuario, $senha, $ banco, $port);
+    $conexao = mysqli_connect($servidor, $usuario, $senha, $banco, $port);
 
     if(!$conexao){
         echo 'Erro: Não foi possível conectar ao MySql.' . PHP_EOL;
