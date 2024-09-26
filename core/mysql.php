@@ -16,7 +16,7 @@
 
         $stmt = mysqli_prepare($conexao, $instrucao);
 
-        eval('mysqli_stms_bind_param($stmt, \''.implode('', $tipo). '\', $'.implode(',$', array_keys($dados)) . ');');
+        eval('mysqli_stmt_bind_param($stmt, \''.implode('', $tipo). '\', $'.implode(', $', array_keys($dados)) . ');');
 
         mysqli_stmt_execute($stmt);
 
@@ -37,7 +37,7 @@
 
         foreach ($dados as $campo => $dado) {
             $coringa_dados [$campo] = '?';
-            $tipo[] = gettype ($dado) [0]; 
+            $tipo[] = gettype($dado) [0]; 
             $$campo = $dado;
         }
 
@@ -51,13 +51,13 @@
 
             $nome_campo = (count($expressao) < 4) ? $expressao[0]: $expressao[1];
         
-        if (isset($nome_campo)){
+            if (isset($nome_campo)){
 
-            $nome_campo = $nome_campo . ' '. rand();
-        }
+                $nome_campo = $nome_campo . '_'. rand();
+            }
         
-        $campos_criterio[] = $nome_campo;
-        $$nome_campo = $dado;
+            $campos_criterio[] = $nome_campo;
+            $$nome_campo = $dado;
         }
 
         $instrucao = update($entidade, $coringa_dados, $coringa_criterio);
@@ -102,7 +102,7 @@
             $expressao[count ($expressao) -1] = '?';
             $coringa_criterio[] = $expressao;
         
-            $nome_campo = (count($expressao) < 4) ? $expressao[0] : $expressao[1];
+            $nome_campo = (count($xpressao) < 4) ? $expressao[0] : $expressao[1];
 
             $campos_criterio[] = $nome_campo;
 
@@ -111,7 +111,7 @@
 
         $instrucao = delete($entidade, $coringa_criterio);
 
-        $conexao = conecta ();
+        $conexao = conecta();
 
         $stmt = mysqli_prepare($conexao, $instrucao);
 
@@ -124,7 +124,7 @@
             eval($comando);
         }
 
-        mysqli_stmt_execute ($stmt);
+        mysqli_stmt_execute($stmt);
 
         $retorno = (boolean) mysqli_stmt_affected_rows($stmt);
         
