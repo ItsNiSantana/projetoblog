@@ -14,6 +14,7 @@
 
         $conexao = conecta();
 
+        //prepara para conectar com o sql
         $stmt = mysqli_prepare($conexao, $instrucao);
 
         eval('mysqli_stmt_bind_param($stmt, \''.implode('', $tipo). '\', $'.implode(', $', array_keys($dados)) . ');');

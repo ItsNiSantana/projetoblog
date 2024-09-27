@@ -14,6 +14,7 @@
         $$indice = limparDados($dado);
     }
 
+    //verificar no banco de dados se funcionou
     switch($acao){
         case 'insert':
             $dados = [
@@ -120,5 +121,5 @@
             exit;
             break;
     }
-    header('Locatiion: ../index.php');
+    header('Location: ../index.php');
 ?>

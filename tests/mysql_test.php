@@ -4,6 +4,7 @@
     require_once '../core/sql.php';
     require_once '../core/mysql.php';
 
+    //é o teste mostrado na tela
     insert_teste('João', 'joao@ifsp.edu.br', '123456');
     buscar_teste();
     insert_teste(38, 'murilo', 'silva@mail.com');
