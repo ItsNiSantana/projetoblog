@@ -163,13 +163,13 @@
         }
 
         $instrucao = select($entidade, $campos, $coringa_criterio, $ordem);
-
+        // para testar o banco = echo $instrucao;
         $conexao = conecta();
 
         $stmt = mysqli_prepare($conexao, $instrucao);
 
         if(isset($tipo)) {
-            $comando = 'mysqli_stmt_bind_param(stmt, ';
+            $comando = 'mysqli_stmt_bind_param($stmt, ';
             $comando .= "'" . implode('', $tipo). "'";
             $comando .= ', $' . implode(', $', $campos_criterio);
             $comando .= ');';

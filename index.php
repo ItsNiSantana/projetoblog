@@ -61,7 +61,9 @@
                             'titulo',
                             'data_postagem',
                             'id',
-                            '(select nome from usuario where usuario.id = post.usuario_id) as nome'
+                            '(select nome 
+                                from usuario 
+                                where usuario.id = post.usuario_id) as nome'
                         ],
                         $criterio,
                         'data_postagem DESC'

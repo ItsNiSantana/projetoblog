@@ -10,7 +10,7 @@ CREATE TABLE usuario
     nome    varchar(50) NOT NULL,
     email       varchar(255) NOT NULL,
     senha       varchar(50) NOT NULL,
-    dt_criacao datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    data_criacao datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     ativo       tinyint NOT NULL DEFAULT '0',
     adm tinyint NOT NULL DEFAULT '0',
     PRIMARY KEY(id)
@@ -23,8 +23,8 @@ CREATE TABLE POST
     titulo      varchar(255) NOT NULL,
     texto       text NOT NULL,
     usuario_id  int NOT NULL,
-    dt_criacao  INT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    dt_postagem datetime NOT NULL,
+    data_criacao  INT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    data_postagem datetime NOT NULL,
     PRIMARY KEY(id),
     KEY fk_post_usuario_idx (usuario_id),
     CONSTRAINT fk_post_usuario
