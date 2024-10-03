@@ -51,7 +51,17 @@
                 <form method="post" action="core/post_repositorio.php">
                     <input type="hidden" name="acao" value="<?php echo empty($id) ? 'insert' : 'update'?>">
                     <input type="hidden" name="id" value="<?php echo $entidade['id'] ?? ''?>">
-                    <div></div><!-- continuar-->
+                    <div class="form-group">
+                        <label for="titulo">Título</label>
+                        <input class="form-control" type="text" require="required" id="titulo" name="titulo" value="<?php echo $entidade['titulo'] ?? ''?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="texto">Texto</label>
+                        <textarea class="form-control" type="text" require="required" id="texto" name="texto" rows="5">
+                            <?php echo $entidade['texto'] ?? ''?>
+                        </textarea>
+                    </div>
+                <!--começar página 3-->
                 </form>
             </div>
         </div>
