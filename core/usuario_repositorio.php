@@ -38,7 +38,7 @@
             ];
 
             $criterio = [
-                ['id', '-', $id]
+                ['id', '=', $id]
             ];
 
             atualiza(
@@ -117,9 +117,10 @@
                 $criterio
             );
 
-            header('Location: ../usuario.php');
+            header('Location: ../usuarios.php');
             exit;
             break;
+            
     }
     header('Location: ../index.php');
 ?>

@@ -70,7 +70,7 @@
                     );
                 ?>
                 <div>
-                    <div class = "list-group">
+                    <div class="list-group">
                         <?php
                         foreach($posts as $post):
                             $data = date_create($post['data_postagem']);

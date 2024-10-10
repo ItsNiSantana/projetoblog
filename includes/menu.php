@@ -22,7 +22,7 @@
             ?>
 
             <li class="nav-item">
-                <a class="nav-link" href="usuarios.php"></a>
+                <a class="nav-link" href="usuarios.php">Usuários</a>
             </li>
             <?php endif;?>
         </ul>

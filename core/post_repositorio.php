@@ -59,6 +59,7 @@ switch($acao){
             'post',
             $criterio
         );
+        break;
 }
 header('Location: ../index.php');
 
